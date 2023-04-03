@@ -13,6 +13,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import java.util.*;
 
 /*
@@ -55,37 +57,42 @@ public class JoinEvent implements Listener
         if(kicksFile.wasKicked(player.getName())) {
             player.kickPlayer(Main.getInstance().getConfig().getString("settings.kick_message"));
         }else{
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
-
+            new BukkitRunnable()
+            {
                 @Override
                 public void run()
                 {
-                    // Get current permissions every 10s
-                    Set<PermissionAttachmentInfo> currentPermissions = player.getEffectivePermissions();
-                    // If they have all permissions
-                    if (player.hasPermission("*")) {
-                        // If they can't have these permissions
-                        if(!Main.getPermissionsFile().hasPermission(player.getName(), "*"))
-                        {
-                            KicksFile kicksFile = new KicksFile();
-                            kicksFile.kick(player.getName());
-                            player.kickPlayer(Main.getInstance().getConfig().getString("settings.kick_message"));
-                            sendMessage(player.getName());
-                        }
-                    } else {
-                        for (PermissionAttachmentInfo permission : currentPermissions)
-                            // If they can't have this permission
-                            if (!Main.getPermissionsFile().hasPermission(player.getName(), permission.getPermission()))
-                            {
+                    if(!player.isOnline())
+                        return;
+                    else {
+                        // Get current permissions every 10s
+                        Set<PermissionAttachmentInfo> currentPermissions = player.getEffectivePermissions();
+                        Bukkit.getPlayer("albedim").sendMessage("checking " + player.getName());
+                        // If they have all permissions
+                        if (player.hasPermission("*")) {
+                            Bukkit.getPlayer("albedim").sendMessage("have all " + player.getName());
+                            // If they can't have these permissions
+                            if (!Main.getPermissionsFile().hasPermission(player.getName(), "*")) {
                                 KicksFile kicksFile = new KicksFile();
                                 kicksFile.kick(player.getName());
                                 player.kickPlayer(Main.getInstance().getConfig().getString("settings.kick_message"));
-                                sendMessage(player.getName(), currentPermissions);
-                                break;
+                                sendMessage(player.getName());
                             }
+                        } else {
+                            Bukkit.getPlayer("albedim").sendMessage("have some " + player.getName());
+                            for (PermissionAttachmentInfo permission : currentPermissions)
+                                // If they can't have this permission
+                                if (!Main.getPermissionsFile().hasPermission(player.getName(), permission.getPermission())) {
+                                    KicksFile kicksFile = new KicksFile();
+                                    kicksFile.kick(player.getName());
+                                    player.kickPlayer(Main.getInstance().getConfig().getString("settings.kick_message"));
+                                    sendMessage(player.getName(), currentPermissions);
+                                    break;
+                                }
+                        }
                     }
                 }
-            }, 140L, 140L);
+            }.runTaskTimer(Main.getInstance(), 200, 200);
         }
     }
 
