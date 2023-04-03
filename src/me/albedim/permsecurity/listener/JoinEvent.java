@@ -5,6 +5,7 @@ import me.albedim.permsecurity.annotation.PermissionsHandler;
 import me.albedim.permsecurity.utils.KicksFile;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -59,7 +60,6 @@ public class JoinEvent implements Listener
                 @Override
                 public void run()
                 {
-                    player.sendMessage("check");
                     // Get current permissions every 10s
                     Set<PermissionAttachmentInfo> currentPermissions = player.getEffectivePermissions();
                     // If they have all permissions
@@ -99,6 +99,7 @@ public class JoinEvent implements Listener
                 staffer.sendMessage(" §a- §7L'utente §8[§c" + playerNickname + "§8] §7 ha provato ad ottenere dei permessi");
                 staffer.sendMessage(" §a- §7Permessi trovati: §8[" + formattedPermissions + "§8]");
                 staffer.sendMessage(" §a- §7Kickato: §8[§aSI§8]");
+                staffer.playSound(staffer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 300, 300);
             }
     }
 
@@ -126,6 +127,7 @@ public class JoinEvent implements Listener
                 staffer.sendMessage("§a - §7L'utente §8[§c" + playerNickname + "§8] §7 ha provato ad ottenere dei permessi");
                 staffer.sendMessage("§a - §7Permessi trovati: §8[§a*§8]");
                 staffer.sendMessage("§a - §7Kickato: §8[§aSI§8]");
+                staffer.playSound(staffer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 300, 300);
             }
     }
 }
