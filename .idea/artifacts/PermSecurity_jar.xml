@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PermSecurity:jar">
+    <output-path>$PROJECT_DIR$/../../../MinecraftServer/plugins</output-path>
+    <root id="archive" name="PermSecurity.jar">
+      <element id="module-output" name="PermSecurity" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/me/albedim/permsecurity/resources/spigot-api-1.18.2-R0.1-SNAPSHOT-shaded.jar" path-in-jar="/" />
+      <element id="library" level="project" name="spigot-api-1.18.2-R0.1-SNAPSHOT-shaded" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/20.1.0/annotations-20.1.0.jar" path-in-jar="/" />
+      <element id="library" level="project" name="spigot-api-1.18.2-R0.1-SNAPSHOT-shaded1" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/me/albedim/permsecurity/resources/plugin.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/me/albedim/permsecurity/resources/config.yml" />
+    </root>
+  </artifact>
+</component>

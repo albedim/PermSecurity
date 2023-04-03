@@ -1,0 +1,11 @@
+name: "PermSecurity"
+description: ""
+main: me.albedim.permsecurity.Main
+version: 1.0.0
+versions: ""
+author: albedim
+api-version: 1.18
+commands:
+  aggiungi_perms_deluxe_essentials:
+  removeKick:
+  give:

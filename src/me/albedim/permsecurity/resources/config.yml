@@ -1,0 +1,3 @@
+settings:
+  staff_permission: "libertybans.warn.target.both"
+  kick_message: "§cYou've been kicked for getting unauthorized §lpermissions"

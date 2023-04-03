@@ -1,0 +1,13 @@
+players:
+  1:
+    nickname: dsgsd
+    date: 2023-04-01
+    found_permissions: [ "a", "b" ]
+  2:
+    nickname: sss
+    date: 2023-04-01
+    found_permissions: [ "a", "b" ]
+  3:
+    nickname: asgsagas
+    date: 2023-04-01
+    found_permissions: [ "a", "b" ]
