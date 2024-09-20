@@ -41,11 +41,6 @@ import java.util.*;
 public class JoinEvent implements Listener
 {
 
-    /**
-     * Event
-     * @param e <event>
-     */
-
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent e)
     {
@@ -64,32 +59,27 @@ public class JoinEvent implements Listener
                 {
                     if(!player.isOnline())
                         return;
-                    else {
-                        // Get current permissions every 10s
-                        Set<PermissionAttachmentInfo> currentPermissions = player.getEffectivePermissions();
-                        Bukkit.getPlayer("albedim").sendMessage("checking " + player.getName());
-                        // If they have all permissions
-                        if (player.hasPermission("*")) {
-                            Bukkit.getPlayer("albedim").sendMessage("have all " + player.getName());
-                            // If they can't have these permissions
-                            if (!Main.getPermissionsFile().hasPermission(player.getName(), "*")) {
+                    // Get current permissions every 10s
+                    Set<PermissionAttachmentInfo> currentPermissions = player.getEffectivePermissions();
+                    // If they have all permissions
+                    if (player.hasPermission("*")) {
+                        // If they can't have these permissions
+                        if (!Main.getPermissionsFile().hasPermission(player.getName(), "*")) {
+                            KicksFile kicksFile = new KicksFile();
+                            kicksFile.kick(player.getName());
+                            player.kickPlayer(Main.getInstance().getConfig().getString("settings.kick_message"));
+                            sendMessage(player.getName());
+                        }
+                    } else {
+                        for (PermissionAttachmentInfo permission : currentPermissions)
+                            // If they can't have this permission
+                            if (!Main.getPermissionsFile().hasPermission(player.getName(), permission.getPermission())) {
                                 KicksFile kicksFile = new KicksFile();
                                 kicksFile.kick(player.getName());
                                 player.kickPlayer(Main.getInstance().getConfig().getString("settings.kick_message"));
-                                sendMessage(player.getName());
+                                sendMessage(player.getName(), currentPermissions);
+                                break;
                             }
-                        } else {
-                            Bukkit.getPlayer("albedim").sendMessage("have some " + player.getName());
-                            for (PermissionAttachmentInfo permission : currentPermissions)
-                                // If they can't have this permission
-                                if (!Main.getPermissionsFile().hasPermission(player.getName(), permission.getPermission())) {
-                                    KicksFile kicksFile = new KicksFile();
-                                    kicksFile.kick(player.getName());
-                                    player.kickPlayer(Main.getInstance().getConfig().getString("settings.kick_message"));
-                                    sendMessage(player.getName(), currentPermissions);
-                                    break;
-                                }
-                        }
                     }
                 }
             }.runTaskTimer(Main.getInstance(), 200, 200);
@@ -100,8 +90,7 @@ public class JoinEvent implements Listener
     {
         String formattedPermissions = getFormattedPermissions(permissions);
         for(Player staffer : Bukkit.getOnlinePlayers())
-            if(staffer.hasPermission(Main.getInstance().getConfig().getString("settings.staff_permission")))
-            {
+            if(staffer.hasPermission(Objects.requireNonNull(Main.getInstance().getConfig().getString("settings.staff_permission")))) {
                 staffer.sendMessage("§a§lPermSecurity");
                 staffer.sendMessage(" §a- §7L'utente §8[§c" + playerNickname + "§8] §7 ha provato ad ottenere dei permessi");
                 staffer.sendMessage(" §a- §7Permessi trovati: §8[" + formattedPermissions + "§8]");
@@ -128,8 +117,7 @@ public class JoinEvent implements Listener
     private void sendMessage(String playerNickname)
     {
         for(Player staffer : Bukkit.getOnlinePlayers())
-            if(staffer.hasPermission(Main.getInstance().getConfig().getString("settings.staff_permission")))
-            {
+            if(staffer.hasPermission(Objects.requireNonNull(Main.getInstance().getConfig().getString("settings.staff_permission")))) {
                 staffer.sendMessage("§a§lPermSecurity");
                 staffer.sendMessage("§a - §7L'utente §8[§c" + playerNickname + "§8] §7 ha provato ad ottenere dei permessi");
                 staffer.sendMessage("§a - §7Permessi trovati: §8[§a*§8]");

